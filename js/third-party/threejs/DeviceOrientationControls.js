@@ -80,7 +80,7 @@ THREE.DeviceOrientationControls = function(object) {
 
   var zee = new THREE.Vector3(0, 0, 1);
   var up = new THREE.Vector3(0, 1, 0);
-  var v0 = new THREE.Vector3(5, 0, 0);
+  var v0 = new THREE.Vector3(1, 0, 0);
   var euler = new THREE.Euler();
   var q0 = new THREE.Quaternion(); // - PI/2 around the x-axis
   var q1 = new THREE.Quaternion(- Math.sqrt(0.5), 0, 0, Math.sqrt(0.5));
@@ -154,14 +154,14 @@ THREE.DeviceOrientationControls = function(object) {
   })();
 
   // //debug
-   window.addEventListener('click', (function(){
-    this.align();
-   }).bind(this));
+   //window.addEventListener('click', (function(){
+    //this.align();
+   //}).bind(this));
 
   this.align = function() {
 
     tempVector3
-      .set(0, 0, -1)
+      .set(0, 0, 0)
       .applyQuaternion( tempQuaternion.copy(this.orientationQuaternion).inverse(), 'ZXY' );
 
     tempEuler.setFromQuaternion(
