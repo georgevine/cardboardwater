@@ -53,6 +53,9 @@ void main() {
 
     var clock = new THREE.Clock();
 
+    var slideTime = 5;
+    var slideTimer = 0;
+
     // Start Init 
 
 
@@ -208,6 +211,14 @@ void main() {
     }
 
     function update(dt) {
+      slideTimer += dt;
+      if(slideTimer >= slideTime){
+        slideTimer = 0; 
+        //update mesh
+        //violetMesh.material.map = THREE.ImageUtils.loadTexture(<src>)
+      }
+
+
       resize();
       camera.updateProjectionMatrix();
       controls.update(dt);
