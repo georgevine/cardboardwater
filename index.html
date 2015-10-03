@@ -26,7 +26,25 @@
   <script src="js/third-party/threejs/DeviceOrientationControls.js"></script>
   <script src="js/third-party/threejs/OrbitControls.js"></script>
   <script src="js/third-party/threejs/helvetiker_regular.typeface.js"></script>
+  <script type="application/x-glsl" id="sky-vertex">  
+varying vec2 vUV;
 
+void main() {  
+  vUV = uv;
+  vec4 pos = vec4(position, 1.0);
+  gl_Position = projectionMatrix * modelViewMatrix * pos;
+}
+</script>
+
+<script type="application/x-glsl" id="sky-fragment">  
+uniform sampler2D texture;  
+varying vec2 vUV;
+
+void main() {  
+  vec4 sample = texture2D(texture, vUV);
+  gl_FragColor = vec4(sample.xyz, sample.w);
+}
+</script>  
   <script>
     var camera, scene, renderer;
     var effect, controls;
@@ -74,23 +92,43 @@
 
     var light = new THREE.HemisphereLight(0x777777, 0x000000, 0.8);
     scene.add(light);
-
+    var directionalLight = new THREE.DirectionalLight( 0xffffff, 0.9 );
+    directionalLight.position.set( 0, 1, 0 );
+    directionalLight.rotation.set.x = (Math.PIP / 8);
+    scene.add( directionalLight );
+/*
     // Start the sky object
     var skyGeo = new THREE.SphereGeometry(10000, 25, 25); 
-    var texture = THREE.ImageUtils.loadTexture( "resources/africa.jpg" );
-    var material = new THREE.MeshBasicMaterial({
-      color: 0xffffff,
-      specular: 0xffffff,
-      shininess: 20,
-      shading: THREE.FlatShading,
-      map: texture
+    var skytexture = THREE.ImageUtils.loadTexture( 'resources/africa.jpg' );
+    var skymaterial = new THREE.MeshBasicMaterial({
+      map: skytexture,
+      depthWrite: false,
+      side: THREE.BackSide
     });
-    var sky = new THREE.Mesh(skyGeo, material);
-    sky.material.side = THREE.BackSide;
+    var sky = new THREE.Mesh(skyGeo, skymaterial);
     scene.add(sky);
+*/
 
+    var geometry = new THREE.SphereGeometry(200, 60, 40);  
+    var uniforms = {  
+      texture: { type: 't', value: THREE.ImageUtils.loadTexture('resources/africa.jpg') }
+    };
+    
+    var material = new THREE.ShaderMaterial( {  
+      uniforms:       uniforms,
+      vertexShader:   document.getElementById('sky-vertex').textContent,
+      fragmentShader: document.getElementById('sky-fragment').textContent
+    });
+    
+    skyBox = new THREE.Mesh(geometry, material); 
+    skyBox.rotation.y= -Math.PI;
+    skyBox.scale.set(-1, 1, 1);  
+    skyBox.eulerOrder = 'XZY';  
+    skyBox.renderDepth = 1000.0;  
+    scene.add(skyBox);  
 
     // Start floor object
+    /*
     var texture = THREE.ImageUtils.loadTexture(
       'textures/patterns/checker.png'
     );
@@ -109,7 +147,7 @@
     var mesh = new THREE.Mesh(geometry, material);
     mesh.rotation.x = -Math.PI / 2;
     scene.add(mesh);
-
+*/
 
     // Start photo object
     var texture = new THREE.ImageUtils.loadTexture('resources/world_vision_high_res_0.jpg');
@@ -139,12 +177,12 @@
       font : "helvetiker",
       weight : "normal",
       style : "normal",
-      bevelEnabled : false,
+      bevelEnabled : true,
       bevelThickness : 1,
       bevelSize : 0.5
     };
     var geometry = new THREE.TextGeometry( data.text, data );
-    var material = new THREE.MeshBasicMaterial( { color: 0xb3b3b3 } );
+    var material = new THREE.MeshPhongMaterial( { color: 0x660000 } );
     var textGeo = new THREE.Mesh(geometry, material);
     textGeo.position.set(30,15,-15);
     textGeo.rotation.x=0;
@@ -204,8 +242,10 @@
     window.addEventListener('click', (function(){
     mesh.position.set(100,10,0);
     textGeo.position.set(30,15,-15);
-    setOrientationControls();
+
+
    }).bind(this));
   </script>
+
   </body>
 </html>
