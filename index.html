@@ -63,11 +63,11 @@ void main() {
     effect = new THREE.StereoEffect(renderer);
     scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.001, 700);
-    camera.position.set(0, 15, 0);
+    camera.position.set(0, 19, 0);
     scene.add(camera);
 
     controls = new THREE.OrbitControls(camera, element);
-    controls.rotateUp(Math.PI / 8);
+    controls.rotateUp(THREE.Math.degToRad(15));
     controls.target.set(
       camera.position.x + 0.1,
       camera.position.y,
@@ -92,9 +92,10 @@ void main() {
 
     var light = new THREE.HemisphereLight(0x777777, 0x000000, 0.8);
     scene.add(light);
-    var directionalLight = new THREE.DirectionalLight( 0xffffff, 0.9 );
-    directionalLight.position.set( 0, 1, 0 );
-    directionalLight.rotation.set.x = (Math.PIP / 8);
+    var directionalLight = new THREE.DirectionalLight( 0xffffff, 1.5 );
+    directionalLight.position.set( -15, 10, -10 );
+    directionalLight.rotation.set.x = (Math.PIP / 4);
+    directionalLight.rotation.set.y = -THREE.Math.degToRad(45);
     scene.add( directionalLight );
 /*
     // Start the sky object
@@ -159,7 +160,7 @@ void main() {
       shading: THREE.FlatShading,
       map: texture
     });
-    var geometry = new THREE.PlaneGeometry(15, 10);
+    var geometry = new THREE.PlaneGeometry(20, 13);
     var mesh = new THREE.Mesh(geometry, material);
     mesh.position.set(100,10,0);
     mesh.rotation.x=0;
@@ -172,14 +173,14 @@ void main() {
     var data = {
       text : "World Vision",
       size : 4,
-      height : 2,
+      height : 1,
       curveSegments : 12,
       font : "helvetiker",
       weight : "normal",
       style : "normal",
       bevelEnabled : true,
-      bevelThickness : 1,
-      bevelSize : 0.5
+      bevelThickness : 0.1,
+      bevelSize : 0.2
     };
     var geometry = new THREE.TextGeometry( data.text, data );
     var material = new THREE.MeshPhongMaterial( { color: 0x660000 } );
@@ -210,10 +211,10 @@ void main() {
       resize();
       camera.updateProjectionMatrix();
       controls.update(dt);
-      if (mesh.position.x >= 10) {
+      if (mesh.position.x >= 21) {
         mesh.position.x -= 0.8;
         }
-      if (textGeo.position.x >= 25) {
+      if (textGeo.position.x >= 20) {
         textGeo.position.x -= 0.1;
         }  
       }
