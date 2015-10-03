@@ -154,9 +154,9 @@ THREE.DeviceOrientationControls = function(object) {
   })();
 
   // //debug
-   //window.addEventListener('click', (function(){
-    //this.align();
-   //}).bind(this));
+   window.addEventListener('click', (function(){
+    this.align();
+   }).bind(this));
 
   this.align = function() {
 

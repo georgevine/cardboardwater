@@ -25,6 +25,7 @@
   <script src="js/third-party/threejs/StereoEffect.js"></script>
   <script src="js/third-party/threejs/DeviceOrientationControls.js"></script>
   <script src="js/third-party/threejs/OrbitControls.js"></script>
+  <script src="js/third-party/threejs/helvetiker_regular.typeface.js"></script>
 
   <script>
     var camera, scene, renderer;
@@ -36,17 +37,17 @@
 
     // Start Init 
 
-    
+
     renderer = new THREE.WebGLRenderer();
     element = renderer.domElement;
     container = document.getElementById('webglviewer');
     container.appendChild(element);
     effect = new THREE.StereoEffect(renderer);
     scene = new THREE.Scene();
-    //camera = new THREE.PerspectiveCamera(40, 1, 0.001, 700);
     camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.001, 700);
     camera.position.set(0, 15, 0);
     scene.add(camera);
+
     controls = new THREE.OrbitControls(camera, element);
     controls.rotateUp(Math.PI / 8);
     controls.target.set(
@@ -54,9 +55,10 @@
       camera.position.y,
       camera.position.z 
     );
-    //camera.lookAt(10,10,0);
+
     controls.noZoom = true;
     controls.noPan = true;
+
     function setOrientationControls(e) {
       if (!e.alpha) {
         return;
@@ -67,9 +69,27 @@
       element.addEventListener('click', fullscreen, false);
       window.removeEventListener('deviceorientation', setOrientationControls, true);
     }
+
     window.addEventListener('deviceorientation', setOrientationControls, true);
-    var light = new THREE.HemisphereLight(0x777777, 0x000000, 0.6);
+
+    var light = new THREE.HemisphereLight(0x777777, 0x000000, 0.8);
     scene.add(light);
+
+    // Start the sky object
+    var skyGeo = new THREE.SphereGeometry(10000, 25, 25); 
+    var texture = THREE.ImageUtils.loadTexture( "resources/africa.jpg" );
+    var material = new THREE.MeshBasicMaterial({
+      color: 0xffffff,
+      specular: 0xffffff,
+      shininess: 20,
+      shading: THREE.FlatShading,
+      map: texture
+    });
+    var sky = new THREE.Mesh(skyGeo, material);
+    sky.material.side = THREE.BackSide;
+    scene.add(sky);
+
+
     // Start floor object
     var texture = THREE.ImageUtils.loadTexture(
       'textures/patterns/checker.png'
@@ -89,6 +109,8 @@
     var mesh = new THREE.Mesh(geometry, material);
     mesh.rotation.x = -Math.PI / 2;
     scene.add(mesh);
+
+
     // Start photo object
     var texture = new THREE.ImageUtils.loadTexture('resources/world_vision_high_res_0.jpg');
     texture.anisotropy = renderer.getMaxAnisotropy();
@@ -105,6 +127,31 @@
     mesh.rotation.x=0;
     mesh.rotation.y= -Math.PI / 2;
     scene.add(mesh);
+    window.addEventListener('resize', resize, false);
+    setTimeout(resize, 1);
+
+    // Start Title
+    var data = {
+      text : "World Vision",
+      size : 4,
+      height : 2,
+      curveSegments : 12,
+      font : "helvetiker",
+      weight : "normal",
+      style : "normal",
+      bevelEnabled : false,
+      bevelThickness : 1,
+      bevelSize : 0.5
+    };
+    var geometry = new THREE.TextGeometry( data.text, data );
+    var material = new THREE.MeshBasicMaterial( { color: 0xb3b3b3 } );
+    var textGeo = new THREE.Mesh(geometry, material);
+    textGeo.position.set(30,15,-15);
+    textGeo.rotation.x=0;
+    textGeo.rotation.y= -Math.PI / 2;
+    scene.add(textGeo);
+
+
     window.addEventListener('resize', resize, false);
     setTimeout(resize, 1);
     
@@ -127,8 +174,11 @@
       controls.update(dt);
       if (mesh.position.x >= 10) {
         mesh.position.x -= 0.8;
+        }
+      if (textGeo.position.x >= 25) {
+        textGeo.position.x -= 0.1;
+        }  
       }
-    }
 
     function render(dt) {
       effect.render(scene, camera);
@@ -151,6 +201,11 @@
         container.webkitRequestFullscreen();
       }
     }
+    window.addEventListener('click', (function(){
+    mesh.position.set(100,10,0);
+    textGeo.position.set(30,15,-15);
+    setOrientationControls();
+   }).bind(this));
   </script>
   </body>
 </html>
