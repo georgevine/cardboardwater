@@ -187,7 +187,7 @@ void main() {
     var data = {
       text : "Nearly 1,000 children under age 5 die every day from diarrhea caused by contaminated water, poor sanitation, and improper hygiene.",
       size : 1,
-      height : 1,
+      height : 0.1,
       curveSegments : 12,
       font : "helvetiker",
       weight : "normal",
@@ -197,8 +197,11 @@ void main() {
       bevelSize : 0.2
     };
     var geometry = new THREE.TextGeometry( data.text, data );
-    var material = new THREE.MeshPhongMaterial( { color: 0xffffff } );
-    material.transperent = true;
+    var material = new THREE.MeshBasicMaterial( { 
+      color: 0xffffff,
+      transparent: true,
+      opacity: 0.0
+    } );
     var text10 = new THREE.Mesh(geometry, material);
     text10.position.set(30,15,-15);
     text10.rotation.x=0;
