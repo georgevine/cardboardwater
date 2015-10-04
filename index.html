@@ -56,6 +56,16 @@ void main() {
 
     var slideTime = 5;
     var slideTimer = 0;
+    slideCounter = -2;
+    var first = true;
+
+    var photos = new Array(1);
+    var text = new Array(1);
+    var currentPhoto;
+    var currentText;
+
+    var startPhotoMesh;
+    var startText;
 
     // Start Init 
 
@@ -80,6 +90,7 @@ void main() {
 
     controls.noZoom = true;
     controls.noPan = true;
+
 
     function setOrientationControls(e) {
       if (!e.alpha) {
@@ -136,11 +147,11 @@ void main() {
       opacity: 0.0
     });
     var geometry = new THREE.PlaneGeometry(20, 13);
-    var mesh = new THREE.Mesh(geometry, material);
-    mesh.position.set(100,10,0);
-    mesh.rotation.x=0;
-    mesh.rotation.y= -Math.PI / 2;
-    scene.add(mesh);
+    startPhotoMesh = new THREE.Mesh(geometry, material);
+    startPhotoMesh.position.set(100,10,0);
+    startPhotoMesh.rotation.x=0;
+    startPhotoMesh.rotation.y= -Math.PI / 2;
+    scene.add(startPhotoMesh);
 
     // Start Title
     var data = {
@@ -157,11 +168,14 @@ void main() {
     };
     var geometry = new THREE.TextGeometry( data.text, data );
     var material = new THREE.MeshPhongMaterial( { color: 0x660000 } );
-    var textGeo = new THREE.Mesh(geometry, material);
-    textGeo.position.set(30,15,-15);
-    textGeo.rotation.x=0;
-    textGeo.rotation.y= -Math.PI / 2;
-    scene.add(textGeo);
+
+    material.transperent = true;
+    startText = new THREE.Mesh(geometry, material);
+    startText.position.set(30,15,-15);
+    startText.rotation.x=0;
+    startText.rotation.y= -Math.PI / 2;
+    scene.add(startText);
+
 
     // Slide Photo 1
     var texture = new THREE.ImageUtils.loadTexture('resources/photo1.jpg');
@@ -173,14 +187,13 @@ void main() {
       shading: THREE.FlatShading,
       map: texture,
       transparent: true,
-      opacity: 0.0
+      opacity: 1
     });
     var geometry = new THREE.PlaneGeometry(20, 13);
-    var photo1 = new THREE.Mesh(geometry, material);
-    photo1.position.set(100,10,0);
-    photo1.rotation.x=0;
-    photo1.rotation.y= -Math.PI / 2;
-    scene.add(photo1);
+    photos[0] = new THREE.Mesh(geometry, material);
+    photos[0].position.set(100,10,0);
+    photos[0].rotation.x=0;
+    photos[0].rotation.y= -Math.PI / 2;
 
 
     // Slide 1 Text 1
@@ -200,13 +213,13 @@ void main() {
     var material = new THREE.MeshBasicMaterial( { 
       color: 0xffffff,
       transparent: true,
-      opacity: 0.0
+      opacity: 1
     } );
-    var text10 = new THREE.Mesh(geometry, material);
-    text10.position.set(30,15,-15);
-    text10.rotation.x=0;
-    text10.rotation.y= -Math.PI / 2;
-    scene.add(text10);
+    text[0] = new THREE.Mesh(geometry, material);
+    text[0].position.set(100,15,-30);
+    text[0].rotation.x=0;
+    text[0].rotation.y= -Math.PI / 2;
+  
 
   // Slide 1 text 2
   var data = {
@@ -343,6 +356,7 @@ void main() {
     
     animate();
 
+
     function resize() {
       var width = container.offsetWidth;
       var height = container.offsetHeight;
@@ -355,28 +369,51 @@ void main() {
     }
 
     function update(dt) {
+    
       slideTimer += dt;
       if(slideTimer >= slideTime){
+        console.log('here1');
         slideTimer = 0; 
-        //update mesh
-        //violetMesh.material.map = THREE.ImageUtils.loadTexture(<src>)
+        slideCounter ++;
+
+        if(slideCounter == 0){
+          scene.remove(startPhotoMesh);
+          scene.remove(startText);
+        }
+        
+        if(slideCounter >=0 && slideCounter <photos.length){
+          currentPhoto = photos[slideCounter];
+          currentText = text[slideCounter]
+          scene.add(currentPhoto);
+          scene.add(currentText);
+        }
       }
+
+      
+
+      if(slideCounter >= 0 && slideCounter < photos.length){
+        console.log('here3');
+        if (currentPhoto.position.x >= 21) {
+          currentPhoto.position.x -= 0.8;
+        }
+        if (currentText.position.x >= 20) {
+          currentText.position.x -= 0.8;
+        }  
+      }
+
 
 
       resize();
       camera.updateProjectionMatrix();
       controls.update(dt);
-      if (mesh.position.x >= 21) {
-        mesh.position.x -= 0.8;
-        //mesh.material.opacity += 0.01;
+
+      if (startPhotoMesh.position.x >= 21) {
+        startPhotoMesh.position.x -= 0.8;
         }
-      if (textGeo.position.x >= 20) {
-        textGeo.position.x -= 0.1;
-        }
-      else {
-        textGeo.position.x = -1000;
-      }
-      }
+      if (startText.position.x >= 20) {
+        startText.position.x -= 0.1;
+        }  
+    }
 
     function render(dt) {
       effect.render(scene, camera);
@@ -400,11 +437,29 @@ void main() {
       }
     }
     window.addEventListener('click', (function(){
-    mesh.position.set(100,10,0);
-    textGeo.position.set(30,15,-15);
+    scene.remove(currentPhoto);
+    scene.remove(currentText);
+    slideCounter = -2;
+
+    startPhotoMesh.position.set(100,10,0);
+    startPhotoMesh.rotation.x=0;
+    startPhotoMesh.rotation.y= -Math.PI / 2;
+    scene.add(startPhotoMesh);
+
+    startText.position.set(30,15,-15);
+    startText.rotation.x=0;
+    startText.rotation.y= -Math.PI / 2;
+    scene.add(startText);
 
 
-   }).bind(this));
+
+    }).bind(this));
+
+    
+
+
+
+  
   </script>
 
   </body>
