@@ -737,7 +737,7 @@ void main() {
 
 
 // Slide 6 Text 1
-    text[6] = new Array(3);
+    text[6] = new Array(4);
     var data = {
       text : "Please remove your phone from",
       size : 1,
@@ -801,6 +801,26 @@ void main() {
     } );
     text[6][2] = new THREE.Mesh(geometry, material);
 
+// Slide 6 text 4
+  var data = {
+      text : "(Music: www.bensound.com)",
+      size : 0.6,
+      height : 0.1,
+      curveSegments : 12,
+      font : "helvetiker",
+      weight : "normal",
+      style : "normal",
+      bevelEnabled : false,
+      bevelThickness : 0.1,
+      bevelSize : 0.2
+    };
+    var geometry = new THREE.TextGeometry( data.text, data );
+    var material = new THREE.MeshBasicMaterial( { 
+      color: 0xffffff,
+      transparent: true,
+      opacity: 1
+    } );
+    text[6][3] = new THREE.Mesh(geometry, material);
 
 
 
