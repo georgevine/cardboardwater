@@ -56,11 +56,11 @@ void main() {
 
     var slideTime = 5;
     var slideTimer = 0;
-    slideCounter = -2;
+    slideCounter = -1;
     var first = true;
 
-    var photos = new Array(1);
-    var text = new Array(1);
+    var photos = new Array(2);
+    var text = new Array(2);
     var currentPhoto;
     var currentText;
 
@@ -144,7 +144,7 @@ void main() {
       shading: THREE.FlatShading,
       map: texture,
       transparent: true,
-      opacity: 0.0
+      opacity: 1
     });
     var geometry = new THREE.PlaneGeometry(20, 13);
     startPhotoMesh = new THREE.Mesh(geometry, material);
@@ -191,12 +191,11 @@ void main() {
     });
     var geometry = new THREE.PlaneGeometry(20, 13);
     photos[0] = new THREE.Mesh(geometry, material);
-    photos[0].position.set(100,10,0);
-    photos[0].rotation.x=0;
-    photos[0].rotation.y= -Math.PI / 2;
+    
 
 
     // Slide 1 Text 1
+    text[0] = new Array(3)
     var data = {
       text : "Nearly 1,000 children under age 5 die every day from diarrhea",
       size : 1,
@@ -215,13 +214,11 @@ void main() {
       transparent: true,
       opacity: 1
     } );
-    text[0] = new THREE.Mesh(geometry, material);
-    text[0].position.set(100,15,-30);
-    text[0].rotation.x=0;
-    text[0].rotation.y= -Math.PI / 2;
+    text[0][0] = new THREE.Mesh(geometry, material);
   
 
   // Slide 1 text 2
+
   var data = {
       text : "from diarrhea caused by contaminated water, poor sanitation,",
       size : 1,
@@ -238,13 +235,11 @@ void main() {
     var material = new THREE.MeshBasicMaterial( { 
       color: 0xffffff,
       transparent: true,
-      opacity: 0.0
+      opacity: 1
     } );
-    var text11 = new THREE.Mesh(geometry, material);
-    text11.position.set(30,13,-15);
-    text11.rotation.x=0;
-    text11.rotation.y= -Math.PI / 2;
-    scene.add(text11);
+    text[0][1] = new THREE.Mesh(geometry, material);
+    
+
 
   // Slide 1 text 3
   var data = {
@@ -263,13 +258,11 @@ void main() {
     var material = new THREE.MeshBasicMaterial( { 
       color: 0xffffff,
       transparent: true,
-      opacity: 0.0
+      opacity: 1
     } );
-    var text11 = new THREE.Mesh(geometry, material);
-    text11.position.set(30,11,-15);
-    text11.rotation.x=0;
-    text11.rotation.y= -Math.PI / 2;
-    scene.add(text11);
+    text[0][2] = new THREE.Mesh(geometry, material);
+    
+
 
 
   // Slide Photo 2
@@ -282,17 +275,18 @@ void main() {
       shading: THREE.FlatShading,
       map: texture,
       transparent: false,
-      opacity: 0.0
+      opacity: 1
     });
     var geometry = new THREE.PlaneGeometry(20, 13);
-    var photo2 = new THREE.Mesh(geometry, material);
-    photo2.position.set(100,10,0);
-    photo2.rotation.x=0;
-    photo2.rotation.y= -Math.PI / 2;
-    scene.add(photo2);
+    photos[1] = new THREE.Mesh(geometry, material);
+    photos[1].position.set(100,10,0);
+    photos[1].rotation.x=0;
+    
+
 
 
 // Slide 2 Text 1
+    text[1] = new Array(2);
     var data = {
       text : "We believe the global water and sanitation",
       size : 1,
@@ -311,11 +305,8 @@ void main() {
       transparent: false,
       opacity: 0.0
     } );
-    var text20 = new THREE.Mesh(geometry, material);
-    text20.position.set(30,15,-15);
-    text20.rotation.x=0;
-    text20.rotation.y= -Math.PI / 2;
-    scene.add(text20);
+    text[1][0] = new THREE.Mesh(geometry, material);
+
 
   // Slide 2 text 2
   var data = {
@@ -336,11 +327,7 @@ void main() {
       transparent: false,
       opacity: 0.0
     } );
-    var text21 = new THREE.Mesh(geometry, material);
-    text21.position.set(30,13,-15);
-    text21.rotation.x=0;
-    text21.rotation.y= -Math.PI / 2;
-    scene.add(text21);
+    text[1][1] = new THREE.Mesh(geometry, material);
 
   
 
@@ -372,6 +359,13 @@ void main() {
     
       slideTimer += dt;
       if(slideTimer >= slideTime){
+        if(currentPhoto != null){
+          scene.remove(currentPhoto);
+          for(i = 0; i < currentText.length; i++){
+            scene.remove(currentText[i]);
+          }
+        }
+
         console.log('here1');
         slideTimer = 0; 
         slideCounter ++;
@@ -385,7 +379,16 @@ void main() {
           currentPhoto = photos[slideCounter];
           currentText = text[slideCounter]
           scene.add(currentPhoto);
-          scene.add(currentText);
+          currentPhoto.position.set(100,10,0);
+          currentPhoto.rotation.x=0;
+          currentPhoto.rotation.y= -Math.PI / 2;
+          for(i = 0; i < currentText.length; i++){
+            currentText[i].position.set(100,15 - i*2,-15);
+            currentText[i].rotation.x=0;
+            currentText[i].rotation.y= -Math.PI / 2;
+            scene.add(currentText[i]);
+
+          }
         }
       }
 
@@ -396,8 +399,10 @@ void main() {
         if (currentPhoto.position.x >= 21) {
           currentPhoto.position.x -= 0.8;
         }
-        if (currentText.position.x >= 20) {
-          currentText.position.x -= 0.8;
+        for(i = 0; i < currentText.length; i++){
+            if(currentText[i].position.x >= 21){
+              currentText[i].position.x -= 0.8;
+            }
         }  
       }
 
@@ -438,8 +443,10 @@ void main() {
     }
     window.addEventListener('click', (function(){
     scene.remove(currentPhoto);
-    scene.remove(currentText);
-    slideCounter = -2;
+    for(i = 0; i < currentText.length; i++){
+      scene.remove(currentText[i]);
+    }
+    slideCounter = -1;
 
     startPhotoMesh.position.set(100,10,0);
     startPhotoMesh.rotation.x=0;
