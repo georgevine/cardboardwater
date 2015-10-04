@@ -630,11 +630,11 @@ void main() {
       
 
       if(slideCounter >= 0 && slideCounter < photos.length){
-        if (currentPhoto.position.x >= 21) {
+        if (currentPhoto.position.x >= 30) {
           currentPhoto.position.x -= 0.8;
         }
         for(i = 0; i < currentText.length; i++){
-            if(currentText[i].position.x >= 18){
+            if(currentText[i].position.x >= 26){
               currentText[i].position.x -= 0.8;
             }
         }  
@@ -676,10 +676,19 @@ void main() {
       }
     }
     window.addEventListener('click', (function(){
-    scene.remove(currentPhoto);
-    for(i = 0; i < currentText.length; i++){
-      scene.remove(currentText[i]);
+    
+    if(currentPhoto!=null){
+      scene.remove(currentPhoto);
+      for(i = 0; i < currentText.length; i++){
+        scene.remove(currentText[i]);
+      }
     }
+    else{
+      scene.remove(startPhotoMesh);
+      scene.remove(startText);
+    }
+
+    slideTimer = 0;
     slideCounter = -1;
 
     startPhotoMesh.position.set(100,10,0);
