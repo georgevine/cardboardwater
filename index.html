@@ -125,6 +125,9 @@ void main() {
     var startPhotoMesh;
     var startText;
 
+
+    var audio = new Audio('resources/appaudio.mp3');
+
     // Start Init 
 
 
@@ -822,7 +825,13 @@ void main() {
     }
 
     function update(dt) {
-    
+     /*
+      if(first){
+        audio.play();
+        first = false;
+      }
+    */
+      
       slideTimer += dt;
       if(slideTimer >= slideTime){
         if(currentPhoto != null){
@@ -908,7 +917,11 @@ void main() {
       }
     }
     window.addEventListener('click', (function(){
-    
+    audio.pause();
+    audio.currentTime = 0;
+    audio.play();
+    first = true;
+
     if(currentPhoto!=null){
       scene.remove(currentPhoto);
       for(i = 0; i < currentText.length; i++){
