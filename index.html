@@ -133,6 +133,7 @@ void main() {
       shading: THREE.FlatShading,
       map: texture,
       transparent: true,
+      opacity: 0.0
     });
     var geometry = new THREE.PlaneGeometry(20, 13);
     var mesh = new THREE.Mesh(geometry, material);
@@ -156,7 +157,6 @@ void main() {
     };
     var geometry = new THREE.TextGeometry( data.text, data );
     var material = new THREE.MeshPhongMaterial( { color: 0x660000 } );
-    material.transperent = true;
     var textGeo = new THREE.Mesh(geometry, material);
     textGeo.position.set(30,15,-15);
     textGeo.rotation.x=0;
@@ -183,9 +183,9 @@ void main() {
     scene.add(photo1);
 
 
-    // Slide Text 1
+    // Slide 1 Text 1
     var data = {
-      text : "Nearly 1,000 children under age 5 die every day from diarrhea caused by contaminated water, poor sanitation, and improper hygiene.",
+      text : "Nearly 1,000 children under age 5 die every day from diarrhea",
       size : 1,
       height : 0.1,
       curveSegments : 12,
@@ -208,13 +208,128 @@ void main() {
     text10.rotation.y= -Math.PI / 2;
     scene.add(text10);
 
+  // Slide 1 text 2
+  var data = {
+      text : "from diarrhea caused by contaminated water, poor sanitation,",
+      size : 1,
+      height : 0.1,
+      curveSegments : 12,
+      font : "helvetiker",
+      weight : "normal",
+      style : "normal",
+      bevelEnabled : false,
+      bevelThickness : 0.1,
+      bevelSize : 0.2
+    };
+    var geometry = new THREE.TextGeometry( data.text, data );
+    var material = new THREE.MeshBasicMaterial( { 
+      color: 0xffffff,
+      transparent: true,
+      opacity: 0.0
+    } );
+    var text11 = new THREE.Mesh(geometry, material);
+    text11.position.set(30,13,-15);
+    text11.rotation.x=0;
+    text11.rotation.y= -Math.PI / 2;
+    scene.add(text11);
+
+  // Slide 1 text 3
+  var data = {
+      text : "and improper hygiene.",
+      size : 1,
+      height : 0.1,
+      curveSegments : 12,
+      font : "helvetiker",
+      weight : "normal",
+      style : "normal",
+      bevelEnabled : false,
+      bevelThickness : 0.1,
+      bevelSize : 0.2
+    };
+    var geometry = new THREE.TextGeometry( data.text, data );
+    var material = new THREE.MeshBasicMaterial( { 
+      color: 0xffffff,
+      transparent: true,
+      opacity: 0.0
+    } );
+    var text11 = new THREE.Mesh(geometry, material);
+    text11.position.set(30,11,-15);
+    text11.rotation.x=0;
+    text11.rotation.y= -Math.PI / 2;
+    scene.add(text11);
 
 
+  // Slide Photo 2
+    var texture = new THREE.ImageUtils.loadTexture('resources/photo2.jpg');
+    texture.anisotropy = renderer.getMaxAnisotropy();
+    var material = new THREE.MeshBasicMaterial({
+      color: 0xffffff,
+      specular: 0xffffff,
+      shininess: 20,
+      shading: THREE.FlatShading,
+      map: texture,
+      transparent: false,
+      opacity: 0.0
+    });
+    var geometry = new THREE.PlaneGeometry(20, 13);
+    var photo2 = new THREE.Mesh(geometry, material);
+    photo2.position.set(100,10,0);
+    photo2.rotation.x=0;
+    photo2.rotation.y= -Math.PI / 2;
+    scene.add(photo2);
 
 
+// Slide 2 Text 1
+    var data = {
+      text : "We believe the global water and sanitation",
+      size : 1,
+      height : 0.1,
+      curveSegments : 12,
+      font : "helvetiker",
+      weight : "normal",
+      style : "normal",
+      bevelEnabled : false,
+      bevelThickness : 0.1,
+      bevelSize : 0.2
+    };
+    var geometry = new THREE.TextGeometry( data.text, data );
+    var material = new THREE.MeshBasicMaterial( { 
+      color: 0xffffff,
+      transparent: false,
+      opacity: 0.0
+    } );
+    var text20 = new THREE.Mesh(geometry, material);
+    text20.position.set(30,15,-15);
+    text20.rotation.x=0;
+    text20.rotation.y= -Math.PI / 2;
+    scene.add(text20);
 
+  // Slide 2 text 2
+  var data = {
+      text : "crisis can be solved within our lifetimes",
+      size : 1,
+      height : 0.1,
+      curveSegments : 12,
+      font : "helvetiker",
+      weight : "normal",
+      style : "normal",
+      bevelEnabled : false,
+      bevelThickness : 0.1,
+      bevelSize : 0.2
+    };
+    var geometry = new THREE.TextGeometry( data.text, data );
+    var material = new THREE.MeshBasicMaterial( { 
+      color: 0xffffff,
+      transparent: false,
+      opacity: 0.0
+    } );
+    var text21 = new THREE.Mesh(geometry, material);
+    text21.position.set(30,13,-15);
+    text21.rotation.x=0;
+    text21.rotation.y= -Math.PI / 2;
+    scene.add(text21);
 
-
+  
 
 
 
@@ -253,10 +368,14 @@ void main() {
       controls.update(dt);
       if (mesh.position.x >= 21) {
         mesh.position.x -= 0.8;
+        //mesh.material.opacity += 0.01;
         }
       if (textGeo.position.x >= 20) {
         textGeo.position.x -= 0.1;
-        }  
+        }
+      else {
+        textGeo.position.x = -1000;
+      }
       }
 
     function render(dt) {
