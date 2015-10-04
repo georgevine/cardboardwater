@@ -26,6 +26,7 @@
   <script src="js/third-party/threejs/DeviceOrientationControls.js"></script>
   <script src="js/third-party/threejs/OrbitControls.js"></script>
   <script src="js/third-party/threejs/helvetiker_regular.typeface.js"></script>
+  <script src="js/third-party/threejs/froid_sans_regular.typeface.js"></script>
   <script type="application/x-glsl" id="sky-vertex">  
 varying vec2 vUV;
 
@@ -100,19 +101,8 @@ void main() {
     directionalLight.rotation.set.x = (Math.PIP / 4);
     directionalLight.rotation.set.y = -THREE.Math.degToRad(45);
     scene.add( directionalLight );
-/*
-    // Start the sky object
-    var skyGeo = new THREE.SphereGeometry(10000, 25, 25); 
-    var skytexture = THREE.ImageUtils.loadTexture( 'resources/africa.jpg' );
-    var skymaterial = new THREE.MeshBasicMaterial({
-      map: skytexture,
-      depthWrite: false,
-      side: THREE.BackSide
-    });
-    var sky = new THREE.Mesh(skyGeo, skymaterial);
-    scene.add(sky);
-*/
 
+    // Sky Object
     var geometry = new THREE.SphereGeometry(200, 60, 40);  
     var uniforms = {  
       texture: { type: 't', value: THREE.ImageUtils.loadTexture('resources/africa.jpg') }
@@ -131,27 +121,7 @@ void main() {
     skyBox.renderDepth = 1000.0;  
     scene.add(skyBox);  
 
-    // Start floor object
-    /*
-    var texture = THREE.ImageUtils.loadTexture(
-      'textures/patterns/checker.png'
-    );
-    texture.wrapS = THREE.RepeatWrapping;
-    texture.wrapT = THREE.RepeatWrapping;
-    texture.repeat = new THREE.Vector2(50, 50);
-    texture.anisotropy = renderer.getMaxAnisotropy();
-    var material = new THREE.MeshPhongMaterial({
-      color: 0xffffff,
-      specular: 0xffffff,
-      shininess: 20,
-      shading: THREE.FlatShading,
-      map: texture
-    });
-    var geometry = new THREE.PlaneGeometry(1000, 1000, 10);
-    var mesh = new THREE.Mesh(geometry, material);
-    mesh.rotation.x = -Math.PI / 2;
-    scene.add(mesh);
-*/
+    // OPENING SCENE
 
     // Start photo object
     var texture = new THREE.ImageUtils.loadTexture('resources/world_vision_high_res_0.jpg');
@@ -161,7 +131,8 @@ void main() {
       specular: 0xffffff,
       shininess: 20,
       shading: THREE.FlatShading,
-      map: texture
+      map: texture,
+      transparent: true,
     });
     var geometry = new THREE.PlaneGeometry(20, 13);
     var mesh = new THREE.Mesh(geometry, material);
@@ -169,8 +140,6 @@ void main() {
     mesh.rotation.x=0;
     mesh.rotation.y= -Math.PI / 2;
     scene.add(mesh);
-    window.addEventListener('resize', resize, false);
-    setTimeout(resize, 1);
 
     // Start Title
     var data = {
@@ -187,13 +156,73 @@ void main() {
     };
     var geometry = new THREE.TextGeometry( data.text, data );
     var material = new THREE.MeshPhongMaterial( { color: 0x660000 } );
+    material.transperent = true;
     var textGeo = new THREE.Mesh(geometry, material);
     textGeo.position.set(30,15,-15);
     textGeo.rotation.x=0;
     textGeo.rotation.y= -Math.PI / 2;
     scene.add(textGeo);
 
+    // Slide Photo 1
+    var texture = new THREE.ImageUtils.loadTexture('resources/photo1.jpg');
+    texture.anisotropy = renderer.getMaxAnisotropy();
+    var material = new THREE.MeshBasicMaterial({
+      color: 0xffffff,
+      specular: 0xffffff,
+      shininess: 20,
+      shading: THREE.FlatShading,
+      map: texture,
+      transparent: true,
+      opacity: 0.0
+    });
+    var geometry = new THREE.PlaneGeometry(20, 13);
+    var photo1 = new THREE.Mesh(geometry, material);
+    photo1.position.set(100,10,0);
+    photo1.rotation.x=0;
+    photo1.rotation.y= -Math.PI / 2;
+    scene.add(photo1);
 
+
+    // Slide Text 1
+    var data = {
+      text : "Nearly 1,000 children under age 5 die every day from diarrhea caused by contaminated water, poor sanitation, and improper hygiene.",
+      size : 1,
+      height : 0.1,
+      curveSegments : 12,
+      font : "helvetiker",
+      weight : "normal",
+      style : "normal",
+      bevelEnabled : false,
+      bevelThickness : 0.1,
+      bevelSize : 0.2
+    };
+    var geometry = new THREE.TextGeometry( data.text, data );
+    var material = new THREE.MeshBasicMaterial( { 
+      color: 0xffffff,
+      transparent: true,
+      opacity: 0.0
+    } );
+    var text10 = new THREE.Mesh(geometry, material);
+    text10.position.set(30,15,-15);
+    text10.rotation.x=0;
+    text10.rotation.y= -Math.PI / 2;
+    scene.add(text10);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // Setup and functions
     window.addEventListener('resize', resize, false);
     setTimeout(resize, 1);
     
