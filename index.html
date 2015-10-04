@@ -26,7 +26,6 @@
   <script src="js/third-party/threejs/DeviceOrientationControls.js"></script>
   <script src="js/third-party/threejs/OrbitControls.js"></script>
   <script src="js/third-party/threejs/helvetiker_regular.typeface.js"></script>
-  <script src="js/third-party/threejs/froid_sans_regular.typeface.js"></script>
   <script type="application/x-glsl" id="sky-vertex">  
 varying vec2 vUV;
 
@@ -54,13 +53,13 @@ void main() {
 
     var clock = new THREE.Clock();
 
-    var slideTime = 5;
+    var slideTime = 10.5;
     var slideTimer = 0;
     slideCounter = -1;
     var first = true;
 
-    var photos = new Array(2);
-    var text = new Array(2);
+    var photos = new Array(5);
+    var text = new Array(5);
     var currentPhoto;
     var currentText;
 
@@ -146,7 +145,7 @@ void main() {
       transparent: true,
       opacity: 1
     });
-    var geometry = new THREE.PlaneGeometry(20, 13);
+    var geometry = new THREE.PlaneGeometry(30, 20);
     startPhotoMesh = new THREE.Mesh(geometry, material);
     startPhotoMesh.position.set(100,10,0);
     startPhotoMesh.rotation.x=0;
@@ -189,7 +188,7 @@ void main() {
       transparent: true,
       opacity: 1
     });
-    var geometry = new THREE.PlaneGeometry(20, 13);
+    var geometry = new THREE.PlaneGeometry(30, 20);
     photos[0] = new THREE.Mesh(geometry, material);
     
 
@@ -197,7 +196,7 @@ void main() {
     // Slide 1 Text 1
     text[0] = new Array(3)
     var data = {
-      text : "Nearly 1,000 children under age 5 die every day from diarrhea",
+      text : "Nearly 1,000 children under age 5 die every",
       size : 1,
       height : 0.1,
       curveSegments : 12,
@@ -220,7 +219,7 @@ void main() {
   // Slide 1 text 2
 
   var data = {
-      text : "from diarrhea caused by contaminated water, poor sanitation,",
+      text : "day from diarrhea caused by contaminated",
       size : 1,
       height : 0.1,
       curveSegments : 12,
@@ -243,7 +242,7 @@ void main() {
 
   // Slide 1 text 3
   var data = {
-      text : "and improper hygiene.",
+      text : "water, poor sanitation, and improper hygiene.",
       size : 1,
       height : 0.1,
       curveSegments : 12,
@@ -274,10 +273,10 @@ void main() {
       shininess: 20,
       shading: THREE.FlatShading,
       map: texture,
-      transparent: false,
+      transparent: true,
       opacity: 1
     });
-    var geometry = new THREE.PlaneGeometry(20, 13);
+    var geometry = new THREE.PlaneGeometry(30, 20);
     photos[1] = new THREE.Mesh(geometry, material);
     photos[1].position.set(100,10,0);
     photos[1].rotation.x=0;
@@ -302,8 +301,8 @@ void main() {
     var geometry = new THREE.TextGeometry( data.text, data );
     var material = new THREE.MeshBasicMaterial( { 
       color: 0xffffff,
-      transparent: false,
-      opacity: 0.0
+      transparent: true,
+      opacity: 1
     } );
     text[1][0] = new THREE.Mesh(geometry, material);
 
@@ -324,12 +323,247 @@ void main() {
     var geometry = new THREE.TextGeometry( data.text, data );
     var material = new THREE.MeshBasicMaterial( { 
       color: 0xffffff,
-      transparent: false,
-      opacity: 0.0
+      transparent: true,
+      opacity: 1
     } );
     text[1][1] = new THREE.Mesh(geometry, material);
 
+
+    // Slide Photo 3
+    var texture = new THREE.ImageUtils.loadTexture('resources/photo3.jpg');
+    texture.anisotropy = renderer.getMaxAnisotropy();
+    var material = new THREE.MeshBasicMaterial({
+      color: 0xffffff,
+      specular: 0xffffff,
+      shininess: 20,
+      shading: THREE.FlatShading,
+      map: texture,
+      transparent: true,
+      opacity: 1
+    });
+    var geometry = new THREE.PlaneGeometry(30, 20);
+    photos[2] = new THREE.Mesh(geometry, material);
+    photos[2].position.set(100,10,0);
+    photos[2].rotation.x=0;
+    
+
+
+
+// Slide 3 Text 1
+    text[2] = new Array(3);
+    var data = {
+      text : "We’re focused on providing clean water and",
+      size : 1,
+      height : 0.1,
+      curveSegments : 12,
+      font : "helvetiker",
+      weight : "normal",
+      style : "normal",
+      bevelEnabled : false,
+      bevelThickness : 0.1,
+      bevelSize : 0.2
+    };
+    var geometry = new THREE.TextGeometry( data.text, data );
+    var material = new THREE.MeshBasicMaterial( { 
+      color: 0xffffff,
+      transparent: true,
+      opacity: 1
+    } );
+    text[2][0] = new THREE.Mesh(geometry, material);
+
+
+  // Slide 3 text 2
+  var data = {
+      text : "sanitation to every man, woman, and child",
+      size : 1,
+      height : 0.1,
+      curveSegments : 12,
+      font : "helvetiker",
+      weight : "normal",
+      style : "normal",
+      bevelEnabled : false,
+      bevelThickness : 0.1,
+      bevelSize : 0.2
+    };
+    var geometry = new THREE.TextGeometry( data.text, data );
+    var material = new THREE.MeshBasicMaterial( { 
+      color: 0xffffff,
+      transparent: true,
+      opacity: 1
+    } );
+    text[2][1] = new THREE.Mesh(geometry, material);
+
+    // Slide 3 text 3
+  var data = {
+      text : "in every community we work in.",
+      size : 1,
+      height : 0.1,
+      curveSegments : 12,
+      font : "helvetiker",
+      weight : "normal",
+      style : "normal",
+      bevelEnabled : false,
+      bevelThickness : 0.1,
+      bevelSize : 0.2
+    };
+    var geometry = new THREE.TextGeometry( data.text, data );
+    var material = new THREE.MeshBasicMaterial( { 
+      color: 0xffffff,
+      transparent: true,
+      opacity: 1
+    } );
+    text[2][2] = new THREE.Mesh(geometry, material);
+
+
+    // Slide Photo 4
+    var texture = new THREE.ImageUtils.loadTexture('resources/photo4.jpg');
+    texture.anisotropy = renderer.getMaxAnisotropy();
+    var material = new THREE.MeshBasicMaterial({
+      color: 0xffffff,
+      specular: 0xffffff,
+      shininess: 20,
+      shading: THREE.FlatShading,
+      map: texture,
+      transparent: true,
+      opacity: 1
+    });
+    var geometry = new THREE.PlaneGeometry(30, 20);
+    photos[3] = new THREE.Mesh(geometry, material);
+    photos[3].position.set(100,10,0);
+    photos[3].rotation.x=0;
+    
+
+
+
+// Slide 4 Text 1
+    text[3] = new Array(3);
+    var data = {
+      text : "World Vision is the leading NGO provider",
+      size : 1,
+      height : 0.1,
+      curveSegments : 12,
+      font : "helvetiker",
+      weight : "normal",
+      style : "normal",
+      bevelEnabled : false,
+      bevelThickness : 0.1,
+      bevelSize : 0.2
+    };
+    var geometry = new THREE.TextGeometry( data.text, data );
+    var material = new THREE.MeshBasicMaterial( { 
+      color: 0xffffff,
+      transparent: true,
+      opacity: 1
+    } );
+    text[3][0] = new THREE.Mesh(geometry, material);
+
+
+  // Slide 4 text 2
+  var data = {
+      text : "of clean water. We reach one new ",
+      size : 1,
+      height : 0.1,
+      curveSegments : 12,
+      font : "helvetiker",
+      weight : "normal",
+      style : "normal",
+      bevelEnabled : false,
+      bevelThickness : 0.1,
+      bevelSize : 0.2
+    };
+    var geometry = new THREE.TextGeometry( data.text, data );
+    var material = new THREE.MeshBasicMaterial( { 
+      color: 0xffffff,
+      transparent: true,
+      opacity: 1
+    } );
+    text[3][1] = new THREE.Mesh(geometry, material);
+
+    // Slide 4 text 3
+  var data = {
+      text : "person with clean water every 30 seconds. ",
+      size : 1,
+      height : 0.1,
+      curveSegments : 12,
+      font : "helvetiker",
+      weight : "normal",
+      style : "normal",
+      bevelEnabled : false,
+      bevelThickness : 0.1,
+      bevelSize : 0.2
+    };
+    var geometry = new THREE.TextGeometry( data.text, data );
+    var material = new THREE.MeshBasicMaterial( { 
+      color: 0xffffff,
+      transparent: true,
+      opacity: 1
+    } );
+    text[3][2] = new THREE.Mesh(geometry, material);
   
+
+  // Slide Photo 5
+    var texture = new THREE.ImageUtils.loadTexture('resources/map.jpg');
+    texture.anisotropy = renderer.getMaxAnisotropy();
+    var material = new THREE.MeshBasicMaterial({
+      color: 0xffffff,
+      specular: 0xffffff,
+      shininess: 20,
+      shading: THREE.FlatShading,
+      map: texture,
+      transparent: true,
+      opacity: 1
+    });
+    var geometry = new THREE.PlaneGeometry(30, 20);
+    photos[4] = new THREE.Mesh(geometry, material);
+    photos[4].position.set(100,10,0);
+    photos[4].rotation.x=0;
+    
+
+
+
+// Slide 5 Text 1
+    text[4] = new Array(2);
+    var data = {
+      text : "2 million people reached ",
+      size : 1,
+      height : 0.1,
+      curveSegments : 12,
+      font : "helvetiker",
+      weight : "normal",
+      style : "normal",
+      bevelEnabled : false,
+      bevelThickness : 0.1,
+      bevelSize : 0.2
+    };
+    var geometry = new THREE.TextGeometry( data.text, data );
+    var smaterial = new THREE.MeshBasicMaterial( { 
+      color: 0x00000,
+      transparent: true,
+      opacity: 1
+    } );
+    text[4][0] = new THREE.Mesh(geometry, smaterial);
+
+
+  // Slide 5 text 2
+  var data = {
+      text : "with improved water access ",
+      size : 1,
+      height : 0.1,
+      curveSegments : 12,
+      font : "helvetiker",
+      weight : "normal",
+      style : "normal",
+      bevelEnabled : false,
+      bevelThickness : 0.1,
+      bevelSize : 0.2
+    };
+    var geometry = new THREE.TextGeometry( data.text, data );
+    var smaterial = new THREE.MeshBasicMaterial( { 
+      color: 0x000000,
+      transparent: true,
+      opacity: 1
+    } );
+    text[4][1] = new THREE.Mesh(geometry, smaterial);
 
 
 
@@ -366,7 +600,6 @@ void main() {
           }
         }
 
-        console.log('here1');
         slideTimer = 0; 
         slideCounter ++;
 
@@ -383,7 +616,9 @@ void main() {
           currentPhoto.rotation.x=0;
           currentPhoto.rotation.y= -Math.PI / 2;
           for(i = 0; i < currentText.length; i++){
-            currentText[i].position.set(100,15 - i*2,-15);
+            currentText[i].geometry.computeBoundingBox();
+            var width = currentText[i].geometry.boundingBox.max.x;
+            currentText[i].position.set(90,15 - i*2,-(width/2));
             currentText[i].rotation.x=0;
             currentText[i].rotation.y= -Math.PI / 2;
             scene.add(currentText[i]);
@@ -395,12 +630,11 @@ void main() {
       
 
       if(slideCounter >= 0 && slideCounter < photos.length){
-        console.log('here3');
         if (currentPhoto.position.x >= 21) {
           currentPhoto.position.x -= 0.8;
         }
         for(i = 0; i < currentText.length; i++){
-            if(currentText[i].position.x >= 21){
+            if(currentText[i].position.x >= 18){
               currentText[i].position.x -= 0.8;
             }
         }  
