@@ -58,8 +58,8 @@ void main() {
     slideCounter = -1;
     var first = true;
 
-    var photos = new Array(5);
-    var text = new Array(5);
+    var photos = new Array(7);
+    var text = new Array(7);
     var currentPhoto;
     var currentText;
 
@@ -536,12 +536,12 @@ void main() {
       bevelSize : 0.2
     };
     var geometry = new THREE.TextGeometry( data.text, data );
-    var smaterial = new THREE.MeshBasicMaterial( { 
+    var material = new THREE.MeshBasicMaterial( { 
       color: 0x00000,
       transparent: true,
       opacity: 1
     } );
-    text[4][0] = new THREE.Mesh(geometry, smaterial);
+    text[4][0] = new THREE.Mesh(geometry, material);
 
 
   // Slide 5 text 2
@@ -558,13 +558,186 @@ void main() {
       bevelSize : 0.2
     };
     var geometry = new THREE.TextGeometry( data.text, data );
-    var smaterial = new THREE.MeshBasicMaterial( { 
+    var material = new THREE.MeshBasicMaterial( { 
       color: 0x000000,
       transparent: true,
       opacity: 1
     } );
-    text[4][1] = new THREE.Mesh(geometry, smaterial);
+    text[4][1] = new THREE.Mesh(geometry, material);
 
+
+
+    // Slide Photo 6
+    var texture = new THREE.ImageUtils.loadTexture('resources/photo6.jpg');
+    texture.anisotropy = renderer.getMaxAnisotropy();
+    var material = new THREE.MeshBasicMaterial({
+      color: 0xffffff,
+      specular: 0xffffff,
+      shininess: 20,
+      shading: THREE.FlatShading,
+      map: texture,
+      transparent: true,
+      opacity: 1
+    });
+    var geometry = new THREE.PlaneGeometry(30, 20);
+    photos[5] = new THREE.Mesh(geometry, material);
+    photos[5].position.set(100,10,0);
+    photos[5].rotation.x=0;
+    
+
+
+
+// Slide 6 Text 1
+    text[5] = new Array(3);
+    var data = {
+      text : "You can help make a difference.",
+      size : 1,
+      height : 0.1,
+      curveSegments : 12,
+      font : "helvetiker",
+      weight : "normal",
+      style : "normal",
+      bevelEnabled : false,
+      bevelThickness : 0.1,
+      bevelSize : 0.2
+    };
+    var geometry = new THREE.TextGeometry( data.text, data );
+    var material = new THREE.MeshBasicMaterial( { 
+      color: 0xffffff,
+      transparent: true,
+      opacity: 1
+    } );
+    text[5][0] = new THREE.Mesh(geometry, material);
+
+
+  // Slide 6 text 2
+  var data = {
+      text : "Donate now to the World Vision",
+      size : 1,
+      height : 0.1,
+      curveSegments : 12,
+      font : "helvetiker",
+      weight : "normal",
+      style : "normal",
+      bevelEnabled : false,
+      bevelThickness : 0.1,
+      bevelSize : 0.2
+    };
+    var geometry = new THREE.TextGeometry( data.text, data );
+    var material = new THREE.MeshBasicMaterial( { 
+      color: 0xffffff,
+      transparent: true,
+      opacity: 1
+    } );
+    text[5][1] = new THREE.Mesh(geometry, material);
+
+// Slide 6 text 3
+  var data = {
+      text : "Clean Water Project.",
+      size : 1,
+      height : 0.1,
+      curveSegments : 12,
+      font : "helvetiker",
+      weight : "normal",
+      style : "normal",
+      bevelEnabled : false,
+      bevelThickness : 0.1,
+      bevelSize : 0.2
+    };
+    var geometry = new THREE.TextGeometry( data.text, data );
+    var material = new THREE.MeshBasicMaterial( { 
+      color: 0xffffff,
+      transparent: true,
+      opacity: 1
+    } );
+    text[5][2] = new THREE.Mesh(geometry, material);
+
+
+
+    // Slide Photo 7 TRANSPARENT
+    var texture = new THREE.ImageUtils.loadTexture('resources/photo6.jpg');
+    texture.anisotropy = renderer.getMaxAnisotropy();
+    var material = new THREE.MeshBasicMaterial({
+      color: 0xffffff,
+      specular: 0xffffff,
+      shininess: 20,
+      shading: THREE.FlatShading,
+      map: texture,
+      transparent: true,
+      opacity: 0.0
+    });
+    var geometry = new THREE.PlaneGeometry(30, 20);
+    photos[6] = new THREE.Mesh(geometry, material);
+    photos[6].position.set(100,10,0);
+    photos[6].rotation.x=0;
+    
+
+
+
+// Slide 6 Text 1
+    text[6] = new Array(3);
+    var data = {
+      text : "Please remove your phone from",
+      size : 1,
+      height : 0.1,
+      curveSegments : 12,
+      font : "helvetiker",
+      weight : "normal",
+      style : "normal",
+      bevelEnabled : false,
+      bevelThickness : 0.1,
+      bevelSize : 0.2
+    };
+    var geometry = new THREE.TextGeometry( data.text, data );
+    var material = new THREE.MeshBasicMaterial( { 
+      color: 0xffffff,
+      transparent: true,
+      opacity: 1
+    } );
+    text[6][0] = new THREE.Mesh(geometry, material);
+
+
+  // Slide 6 text 2
+  var data = {
+      text : "Google Cardboard. Or click anywhere to",
+      size : 1,
+      height : 0.1,
+      curveSegments : 12,
+      font : "helvetiker",
+      weight : "normal",
+      style : "normal",
+      bevelEnabled : false,
+      bevelThickness : 0.1,
+      bevelSize : 0.2
+    };
+    var geometry = new THREE.TextGeometry( data.text, data );
+    var material = new THREE.MeshBasicMaterial( { 
+      color: 0xffffff,
+      transparent: true,
+      opacity: 1
+    } );
+    text[6][1] = new THREE.Mesh(geometry, material);
+
+// Slide 6 text 3
+  var data = {
+      text : "play this project again.",
+      size : 1,
+      height : 0.1,
+      curveSegments : 12,
+      font : "helvetiker",
+      weight : "normal",
+      style : "normal",
+      bevelEnabled : false,
+      bevelThickness : 0.1,
+      bevelSize : 0.2
+    };
+    var geometry = new THREE.TextGeometry( data.text, data );
+    var material = new THREE.MeshBasicMaterial( { 
+      color: 0xffffff,
+      transparent: true,
+      opacity: 1
+    } );
+    text[6][2] = new THREE.Mesh(geometry, material);
 
 
 
